@@ -25,8 +25,8 @@ class red_alerts:
             list of unreaded 'alert' objects, else None
         """
         try:            
-            #alerts_content = str(requests.get(ALERTS_URL).content, encoding='utf8')
-            alerts_content = ''.join(open("AlertsHistory.json", 'r').readlines()) #<-- for self testing with local file
+            alerts_content = str(requests.get(ALERTS_URL).content, encoding='utf8')
+            #alerts_content = ''.join(open("AlertsHistory.json", 'r').readlines()) #<-- for self testing with local file
             
             if len(alerts_content) == ALERTS_EMPTY_LENGTH:
                 return None
