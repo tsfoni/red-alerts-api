@@ -25,27 +25,29 @@ class red_alerts:
             list of unreaded 'alert' objects, else None
         """
         try:            
-            alerts_content = str(requests.get(ALERTS_URL).content, encoding='utf8')
+            #alerts_content = str(requests.get(ALERTS_URL).content, encoding='utf8')
+            alerts_content = ''.join(open("AlertsHistory.json", 'r').readlines()) #<-- for self testing with local file
             
             if len(alerts_content) == ALERTS_EMPTY_LENGTH:
                 return None
 
-            alerts_content = "{\"alerts\":[" + alerts_content[1:-1] + "}"
-            all_alerts = self.encode_json_to_objects(json.loads(alerts_content))
+            alerts_content = "{\"alerts\":" + alerts_content[alerts_content.index("["):
+                                                            alerts_content.index("]")] + "]}"
+            all_alerts = red_alerts.__encode_json_to_objects(json.loads(alerts_content))
         except Exception as e:
             return e     
 
         new_alerts = []
-        for alert in all_alerts:
-            if cmp_alerts(alert, self.__last_alert):
+        for each_alert in all_alerts:
+            if cmp_alerts(each_alert, self.__last_alert):
                 break
-            new_alerts.append(alert)
+            new_alerts.append(each_alert)
             
         self.__last_alert = all_alerts[0] # Updating last alert.
 
         return new_alerts
 
-    def encode_json_to_objects(self, alerts_json) -> list:
+    def __encode_json_to_objects(alerts_json) -> list:
         """
         Converting all alerts from json file and turning them to list of 'alert' objects.
         Reutrn:
@@ -53,7 +55,13 @@ class red_alerts:
         """
         all_alerts = []
         for each_alert in alerts_json["alerts"]:
-            if each_alert["title"] == RED_ALERT_JSON_TITLE: # Filters only red 
-                all_alerts.append(alert(each_alert["data"], datetime.strptime(each_alert["alertDate"], PIKUD_DATETIME_FORMAT))) # New 'alert' object
-        
+            if each_alert["title"] != RED_ALERT_JSON_TITLE: # Filters only red alerts
+                continue
+
+            time = datetime.strptime(each_alert["alertDate"], PIKUD_DATETIME_FORMAT)    
+            # Inside one alert could be more than 1 city, this will separate each city to its own 'alert' object.
+            cities = each_alert["data"].split(', ')
+            for city in cities:
+                all_alerts.append(alert(city, time))
+
         return all_alerts

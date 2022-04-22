@@ -32,7 +32,4 @@ def cmp_alerts(a1: alert, a2: alert) -> bool:
     Return:
         True if they are equal, else False.
     """
-    if a1.__str__() == a2.__str__():
-        return True
-    
-    return False
+    return a1.__str__() == a2.__str__()    
