@@ -13,7 +13,6 @@ from .alerts import alert, cmp_alerts
 ALERTS_URL = "https://www.oref.org.il/WarningMessages/History/AlertsHistory.json"
 PIKUD_DATETIME_FORMAT = r"%Y-%m-%d %H:%M:%S"
 ALERTS_EMPTY_LENGTH = 2 # Length of empty alerts list.
-RED_ALERT_JSON_TITLE = "ירי טילים ורקטות"
 
 class red_alerts:
     def __init__(self) -> None:
@@ -55,13 +54,12 @@ class red_alerts:
         """
         all_alerts = []
         for each_alert in alerts_json["alerts"]:
-            if each_alert["title"] != RED_ALERT_JSON_TITLE: # Filters only red alerts
-                continue
-
             time = datetime.strptime(each_alert["alertDate"], PIKUD_DATETIME_FORMAT)    
+            
             # Inside one alert could be more than 1 city, this will separate each city to its own 'alert' object.
             cities = each_alert["data"].split(', ')
             for city in cities:
                 all_alerts.append(alert(city, time))
 
         return all_alerts
+
