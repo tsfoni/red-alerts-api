@@ -6,7 +6,7 @@ import time
 alerts = r.red_alerts()
 while True: 
     new_alerts = alerts.get_new_alerts()
-    if new_alerts != None:
-            for new_alert in new_alerts:
-                print(new_alert.__str__())
-    time.sleep(4)
+    for new_alert in new_alerts:
+        print(new_alert.__str__())
+    print("New round.")
+    time.sleep(1)
