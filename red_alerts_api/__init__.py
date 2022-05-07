@@ -25,16 +25,16 @@ class red_alerts:
         """
         try:            
             alerts_content = str(requests.get(ALERTS_URL).content, encoding='utf8')
-            #alerts_content = ''.join(open("AlertsHistory.json", 'r').readlines()) #<-- for self testing with local file
+            # alerts_content = ''.join(open("AlertsHistory.json", 'r').readlines()) #<-- for self testing with local file
             
-            if len(alerts_content) == ALERTS_EMPTY_LENGTH:
+            if len(alerts_content) <= ALERTS_EMPTY_LENGTH:
                 return None
 
             alerts_content = "{\"alerts\":" + alerts_content[alerts_content.index("["):
                                                             alerts_content.index("]")] + "]}"
             all_alerts = red_alerts.__encode_json_to_objects(json.loads(alerts_content))
         except Exception as e:
-            return e     
+            raise e     
 
         new_alerts = []
         for each_alert in all_alerts:
