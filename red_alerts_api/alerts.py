@@ -25,11 +25,4 @@ class alert:
     
     def __str__(self) -> str:
         return F"City: {self.__city}, Time: {self.__time}"
-
-def cmp_alerts(a1: alert, a2: alert) -> bool:
-    """
-    Compare 2 'alert' objects.
-    Return:
-        True if they are equal, else False.
-    """
-    return a1.__str__() == a2.__str__()    
+    

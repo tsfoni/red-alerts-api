@@ -9,4 +9,4 @@ while True:
     for new_alert in new_alerts:
         print(new_alert.__str__())
     print("New round.")
-    time.sleep(1)
+    time.sleep(5)

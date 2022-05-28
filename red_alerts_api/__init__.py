@@ -7,11 +7,10 @@ if __name__ == "__main__":
 
 from datetime import datetime
 import requests, json
-from .alerts import alert, cmp_alerts
+from .alerts import alert
 
 ALERTS_URL = "https://www.oref.org.il/WarningMessages/History/AlertsHistory.json"
 PIKUD_DATETIME_FORMAT = r"%Y-%m-%d %H:%M:%S"
-ALERTS_EMPTY_LENGTH = 2 # Length of empty alerts list.
 
 class red_alerts:
     def __init__(self) -> None:
@@ -26,7 +25,7 @@ class red_alerts:
             alerts_content = str(requests.get(ALERTS_URL).content, encoding='utf8')
             # alerts_content = ''.join(open("AlertsHistory.json", 'r').readlines()) #<-- for self testing with local file
             
-            if len(alerts_content) <= ALERTS_EMPTY_LENGTH:
+            if len(alerts_content) <= 2: # Length of empty alerts list.
                 return []
 
             alerts_content = "{\"alerts\":" + alerts_content[alerts_content.index("["):
@@ -49,7 +48,7 @@ class red_alerts:
 
         new_alerts = []
         for each_alert in all_alerts:
-            if cmp_alerts(each_alert, self.__last_alert):
+            if each_alert.__str__() == self.__last_alert.__str__():
                 break
             new_alerts.append(each_alert)
 
@@ -60,7 +59,7 @@ class red_alerts:
 
     def __encode_json_to_objects(alerts_json) -> list:
         """
-        Converting all alerts from json file and turning them to list of 'alert' objects.
+        Converting all alerts from json file format and turning them to list of 'alert' objects.
         Reutrn:
             list of alert objects
         """
