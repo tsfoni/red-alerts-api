@@ -1,6 +1,5 @@
 """
 This module does red alerts handling.
-***Dont work within Israel!***
 """
 
 if __name__ == "__main__":

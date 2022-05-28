@@ -1,3 +1,7 @@
 # red-alerts-api
-<h3>Check "index.py" for recommended usage example</h3>
-<b>CHECK LICENSE</b>
+<h2>Important notes:</h2>
+<ul>
+    <li>This API doesn't work outside Israel</li>
+    <li>Check license</li>
+</ul>
+<p>Check "index.py" for recommended usage</p>
