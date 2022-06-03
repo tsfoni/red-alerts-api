@@ -28,9 +28,7 @@ class red_alerts:
             if len(alerts_content) <= 2: # Length of empty alerts list.
                 return []
 
-            alerts_content = "{\"alerts\":" + alerts_content[alerts_content.index("["):
-                                                            alerts_content.index("]")] + "]}"
-            all_alerts = red_alerts.__encode_json_to_objects(json.loads(alerts_content))
+            all_alerts = red_alerts.__encode_json_to_objects(alerts_content)
         except Exception as e:
             raise e     
 
@@ -44,7 +42,7 @@ class red_alerts:
         """
         all_alerts = self.get_all_alerts()
         if len(all_alerts) == 0: 
-            return all_alerts # Empty list.
+            return []
 
         new_alerts = []
         for each_alert in all_alerts:
@@ -57,14 +55,18 @@ class red_alerts:
         return new_alerts
 
 
-    def __encode_json_to_objects(alerts_json) -> list:
+    def __encode_json_to_objects(alerts_json_format: str) -> list:
         """
-        Converting all alerts from json file format and turning them to list of 'alert' objects.
+        Converting all alerts from json file format (in a string) and turning them to list of 'alert' objects.
         Reutrn:
             list of alert objects
         """
+        alerts_json_format = "{\"alerts\":" + alerts_json_format[alerts_json_format.index("["):
+                                                        alerts_json_format.index("]")] + "]}"
+        alerts_json_format = json.loads(alerts_json_format)
+
         all_alerts = []
-        for each_alert in alerts_json["alerts"]:
+        for each_alert in alerts_json_format["alerts"]:
             time = datetime.strptime(each_alert["alertDate"], PIKUD_DATETIME_FORMAT)    
             
             # Inside one alert could be more than 1 city, this will separate each city to its own 'alert' object.
