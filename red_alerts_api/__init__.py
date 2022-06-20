@@ -13,17 +13,21 @@ ALERTS_URL = "https://www.oref.org.il/WarningMessages/History/AlertsHistory.json
 PIKUD_DATETIME_FORMAT = r"%Y-%m-%d %H:%M:%S"
 
 class red_alerts:
-    def __init__(self) -> None:
+    def __init__(self, test_mode=False) -> None:
         self.__last_alert = alert("", datetime(1879, 3, 14, 11, 30, 0))
+        self.test_mode = test_mode
 
     def get_all_alerts(self) -> list:
         """
         Return:
             List(alert) of all alerts in the current day.
         """
-        try:            
-            alerts_content = str(requests.get(ALERTS_URL).content, encoding='utf8')
-            # alerts_content = ''.join(open("AlertsHistory.json", 'r').readlines()) #<-- for self testing with local file
+        try:    
+            if self.test_mode:
+                alerts_content = ''.join(open("AlertsHistory.json", 'r').readlines()) 
+            else:
+                alerts_content = str(requests.get(ALERTS_URL).content, encoding='utf8')
+
             
             if len(alerts_content) <= 2: # Length of empty alerts list.
                 return []
@@ -62,9 +66,9 @@ class red_alerts:
             list of alert objects
         """
         alerts_json_format = "{\"alerts\":" + alerts_json_format[alerts_json_format.index("["):
-                                                        alerts_json_format.index("]")] + "]}"
+                                                        alerts_json_format.index("]") + 1] + "}"
+        print(alerts_json_format)
         alerts_json_format = json.loads(alerts_json_format)
-
         all_alerts = []
         for each_alert in alerts_json_format["alerts"]:
             time = datetime.strptime(each_alert["alertDate"], PIKUD_DATETIME_FORMAT)    

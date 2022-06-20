@@ -1,4 +1,4 @@
-# Example of red alerts api usage.
+# How to use the API
 
 import red_alerts_api as r
 import time
@@ -9,4 +9,4 @@ while True:
     for new_alert in new_alerts:
         print(new_alert.__str__())
     print("New round.")
-    time.sleep(5)
+    time.sleep(3)
