@@ -67,7 +67,6 @@ class red_alerts:
         """
         alerts_json_format = "{\"alerts\":" + alerts_json_format[alerts_json_format.index("["):
                                                         alerts_json_format.index("]") + 1] + "}"
-        print(alerts_json_format)
         alerts_json_format = json.loads(alerts_json_format)
         all_alerts = []
         for each_alert in alerts_json_format["alerts"]:
