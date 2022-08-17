@@ -38,7 +38,6 @@ class red_alerts:
 
         return all_alerts
 
-
     def get_new_alerts(self) -> list:
         """
         Return:
@@ -58,19 +57,15 @@ class red_alerts:
 
         return new_alerts
 
-
     def __encode_json_to_objects(alerts_json_format: str) -> list:
         """
         Converting all alerts from json file format (in a string) and turning them to list of 'alert' objects.
         Reutrn:
             list of alert objects
         """
-        alerts_json_format = "{\"alerts\":" + alerts_json_format[alerts_json_format.index("["):
-                                                        alerts_json_format.index("]") + 1] + "}"
-        print(alerts_json_format)
-        alerts_json_format = json.loads(alerts_json_format)
+        alerts = json.loads(alerts_json_format)
         all_alerts = []
-        for each_alert in alerts_json_format["alerts"]:
+        for each_alert in alerts:
             time = datetime.strptime(each_alert["alertDate"], PIKUD_DATETIME_FORMAT)    
             
             # Inside one alert could be more than 1 city, this will separate each city to its own 'alert' object.
