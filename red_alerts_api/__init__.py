@@ -24,7 +24,7 @@ class red_alerts:
         """
         try:    
             if self.test_mode:
-                alerts_content = ''.join(open("AlertsHistory.json", 'r').readlines()) 
+                alerts_content = ''.join(open("AlertsHistory.json", 'r', encoding="utf8").readlines()) 
             else:
                 alerts_content = str(requests.get(ALERTS_URL).content, encoding='utf8')
 
