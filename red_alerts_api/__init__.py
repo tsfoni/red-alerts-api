@@ -17,7 +17,7 @@ class red_alerts:
         self.__last_alert = alert("", datetime(1879, 3, 14, 11, 30, 0))
         self.test_mode = test_mode
 
-    def get_all_alerts(self) -> list:
+    def get_all_alerts(self) -> list[alert]:
         """
         Return:
             List(alert) of all alerts in the current day.
@@ -38,7 +38,7 @@ class red_alerts:
 
         return all_alerts
 
-    def get_new_alerts(self) -> list:
+    def get_new_alerts(self) -> list[alert]:
         """
         Return:
             List(alert) of unreaded alerts in the current day.
@@ -57,7 +57,7 @@ class red_alerts:
 
         return new_alerts
 
-    def __encode_json_to_objects(alerts_json_format: str) -> list:
+    def __encode_json_to_objects(alerts_json_format: str) -> list[alert]:
         """
         Converting all alerts from json file format (in a string) and turning them to list of 'alert' objects.
         Reutrn:
